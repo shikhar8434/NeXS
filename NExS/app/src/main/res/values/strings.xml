@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">NExS</string>
+
+    <string name="date">9 November 2020</string>
+
+    //drawer menu titles
+    <string name="profile">Profile</string>
+    <string name="bookmarks">BookMarks</string>
+    <string name="logout">Log Out</string>
+
+    //main menu titles basically for search  menu
+    <string name="search">Search</string>
+
+    //main activity titles
+    <string name="welcome">Welcome</string>
+    <string name="user_name_string">Mayank</string>
+    <string name="date_string">Monday 9 November, 2020</string>
 </resources>
