@@ -1,0 +1,65 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.nexs"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="26"
+8-->/Users/shikharsrivastava/Documents/GitHub/NeXS/NExS/app/src/main/AndroidManifest.xml
+9        android:targetSdkVersion="29" />
+9-->/Users/shikharsrivastava/Documents/GitHub/NeXS/NExS/app/src/main/AndroidManifest.xml
+10
+11    <application
+11-->/Users/shikharsrivastava/Documents/GitHub/NeXS/NExS/app/src/main/AndroidManifest.xml:5:5-29:19
+12        android:allowBackup="true"
+12-->/Users/shikharsrivastava/Documents/GitHub/NeXS/NExS/app/src/main/AndroidManifest.xml:6:9-35
+13        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+13-->[androidx.core:core:1.3.1] /Users/shikharsrivastava/.gradle/caches/transforms-2/files-2.1/dd785f24378047182b1aacdcc6f28fd8/core-1.3.1/AndroidManifest.xml:24:18-86
+14        android:debuggable="true"
+15        android:extractNativeLibs="false"
+16        android:icon="@mipmap/ic_launcher"
+16-->/Users/shikharsrivastava/Documents/GitHub/NeXS/NExS/app/src/main/AndroidManifest.xml:7:9-43
+17        android:label="@string/app_name"
+17-->/Users/shikharsrivastava/Documents/GitHub/NeXS/NExS/app/src/main/AndroidManifest.xml:8:9-41
+18        android:roundIcon="@mipmap/ic_launcher_round"
+18-->/Users/shikharsrivastava/Documents/GitHub/NeXS/NExS/app/src/main/AndroidManifest.xml:9:9-54
+19        android:supportsRtl="true"
+19-->/Users/shikharsrivastava/Documents/GitHub/NeXS/NExS/app/src/main/AndroidManifest.xml:10:9-35
+20        android:testOnly="true"
+21        android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+21-->/Users/shikharsrivastava/Documents/GitHub/NeXS/NExS/app/src/main/AndroidManifest.xml:11:9-65
+22        <activity android:name="com.example.nexs.SplashScreen" >
+22-->/Users/shikharsrivastava/Documents/GitHub/NeXS/NExS/app/src/main/AndroidManifest.xml:12:9-18:20
+22-->/Users/shikharsrivastava/Documents/GitHub/NeXS/NExS/app/src/main/AndroidManifest.xml:12:19-47
+23            <intent-filter>
+23-->/Users/shikharsrivastava/Documents/GitHub/NeXS/NExS/app/src/main/AndroidManifest.xml:13:13-17:29
+24                <action android:name="android.intent.action.MAIN" />
+24-->/Users/shikharsrivastava/Documents/GitHub/NeXS/NExS/app/src/main/AndroidManifest.xml:14:17-69
+24-->/Users/shikharsrivastava/Documents/GitHub/NeXS/NExS/app/src/main/AndroidManifest.xml:14:25-66
+25
+26                <category android:name="android.intent.category.LAUNCHER" />
+26-->/Users/shikharsrivastava/Documents/GitHub/NeXS/NExS/app/src/main/AndroidManifest.xml:16:17-77
+26-->/Users/shikharsrivastava/Documents/GitHub/NeXS/NExS/app/src/main/AndroidManifest.xml:16:27-74
+27            </intent-filter>
+28        </activity>
+29        <activity android:name="com.example.nexs.MainActivity" >
+29-->/Users/shikharsrivastava/Documents/GitHub/NeXS/NExS/app/src/main/AndroidManifest.xml:19:9-28:20
+29-->/Users/shikharsrivastava/Documents/GitHub/NeXS/NExS/app/src/main/AndroidManifest.xml:19:19-47
+30            <intent-filter>
+30-->/Users/shikharsrivastava/Documents/GitHub/NeXS/NExS/app/src/main/AndroidManifest.xml:21:13-23:29
+31                <action android:name="android.intent.action.SEARCH" />
+31-->/Users/shikharsrivastava/Documents/GitHub/NeXS/NExS/app/src/main/AndroidManifest.xml:22:17-71
+31-->/Users/shikharsrivastava/Documents/GitHub/NeXS/NExS/app/src/main/AndroidManifest.xml:22:25-68
+32            </intent-filter>
+33
+34            <meta-data
+34-->/Users/shikharsrivastava/Documents/GitHub/NeXS/NExS/app/src/main/AndroidManifest.xml:25:13-27:54
+35                android:name="android.app.searchable"
+35-->/Users/shikharsrivastava/Documents/GitHub/NeXS/NExS/app/src/main/AndroidManifest.xml:26:17-54
+36                android:resource="@xml/searchable" />
+36-->/Users/shikharsrivastava/Documents/GitHub/NeXS/NExS/app/src/main/AndroidManifest.xml:27:17-51
+37        </activity>
+38    </application>
+39
+40</manifest>
