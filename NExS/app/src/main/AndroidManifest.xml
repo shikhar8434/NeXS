@@ -3,8 +3,8 @@
     package="com.example.nexs">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_SMS" />
 
     <application
         android:allowBackup="true"
@@ -13,13 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
-        <activity android:name=".FeedActivity"></activity>
-
-
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".NameActivity"></activity>
+        <activity android:name=".PhoneAuth" />
+        <activity android:name=".FeedActivity" />
+        <activity android:name=".LoginActivity" />
         <activity android:name=".SplashScreen">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
