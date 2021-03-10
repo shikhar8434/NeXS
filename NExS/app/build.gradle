@@ -3,6 +3,14 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('H:\\codes\\projects\\NExS Android\\NExS\\nexs_keystore.jks')
+            storePassword 'nexsapp123'
+            keyPassword 'nexsapp123'
+            keyAlias 'key0'
+        }
+    }
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
