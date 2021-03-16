@@ -2,6 +2,7 @@ package com.example.nexs;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,12 +20,26 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nexs.adapters.SportsNewsAdapter;
+import com.example.nexs.models.Article;
+import com.example.nexs.models.ArticleResponse;
+import com.example.nexs.models.NewCard;
+import com.example.nexs.services.NexsApi;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class MainActivity extends AppCompatActivity {
+    public static Retrofit retrofit;
+    public static NexsApi api;
+    public static final String BASE_URL = "http://192.168.1.68:8080";
 
     Toolbar mainToolBar;
     DrawerLayout drawerLayout;
@@ -54,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        setRetrofit();
 
         tempData = new ArrayList<>();
         tempData.add(new NewCard("Glenn Maxwell bought by RCB", R.drawable.maxwell));
@@ -113,6 +130,15 @@ public class MainActivity extends AppCompatActivity {
 
         internationalRv.setLayoutManager(horizontalLayoutManager3);
         internationalRv.setAdapter(internationalNewsAdapter);
+
+    }
+
+    private void setRetrofit() {
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        api = retrofit.create(NexsApi.class);
     }
 
     @Override
