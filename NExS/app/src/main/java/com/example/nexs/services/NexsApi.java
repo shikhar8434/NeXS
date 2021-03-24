@@ -1,5 +1,7 @@
 package com.example.nexs.services;
 
+import androidx.annotation.NonNull;
+
 import com.example.nexs.models.Article;
 import com.example.nexs.models.ArticleResponse;
 
@@ -21,9 +23,11 @@ public interface NexsApi {
     public static final String LIKE_BY_ID = "like";
     public static final String NEW_POST = "newPost";
 
-    @POST("/article")
-    Call<ArticleResponse> operateArticle(@Query("func") String func,
-                                         @Body Article article,
-                                         @Query("id") String id,
-                                         @Query("category") String category);
+    @POST("/?resource=article")
+    Call<ArticleResponse> operateArticle(
+            @Query("func") String func,
+            @Body @NonNull  Article article,
+            @Query("id") String id,
+            @Query("category") String category
+    );
 }

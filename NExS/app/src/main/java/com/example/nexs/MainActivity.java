@@ -39,7 +39,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
     public static Retrofit retrofit;
     public static NexsApi api;
-    public static final String BASE_URL = "http://192.168.1.68:8080";
+    public static final String BASE_URL = "https://nexs-backend.vercel.app";
 
     Toolbar mainToolBar;
     DrawerLayout drawerLayout;
@@ -139,6 +139,18 @@ public class MainActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         api = retrofit.create(NexsApi.class);
+        /*Call<ArticleResponse> call = api.operateArticle(NexsApi.GET_ALL, new Article(), null, null);
+        call.enqueue(new Callback<ArticleResponse>() {
+            @Override
+            public void onResponse(Call<ArticleResponse> call, Response<ArticleResponse> response) {
+                Toast.makeText(MainActivity.this, response.body().getArticles().size() + "", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Call<ArticleResponse> call, Throwable t) {
+                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });*/
     }
 
     @Override
