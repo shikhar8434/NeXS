@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         api = retrofit.create(NexsApi.class);
-        /*Call<ArticleResponse> call = api.operateArticle(NexsApi.GET_ALL, new Article(), null, null);
+        Call<ArticleResponse> call = api.articleLikeById("605b439cb7741cd6c229e8e1");
         call.enqueue(new Callback<ArticleResponse>() {
             @Override
             public void onResponse(Call<ArticleResponse> call, Response<ArticleResponse> response) {
@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
             public void onFailure(Call<ArticleResponse> call, Throwable t) {
                 Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
             }
-        });*/
+        });
     }
 
     @Override
