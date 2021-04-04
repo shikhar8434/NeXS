@@ -14,6 +14,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.nexs.models.User;
+import com.example.nexs.models.UserResponse;
 import com.example.nexs.utility.LoadingDialog;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -26,6 +28,10 @@ import com.google.firebase.auth.PhoneAuthProvider;
 
 import java.util.concurrent.TimeUnit;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class PhoneAuth extends AppCompatActivity {
 
     private Context context;
@@ -33,7 +39,7 @@ public class PhoneAuth extends AppCompatActivity {
     private Button send;
     private LoadingDialog dialog;
     private String verID;
-    private String firstName, middleName, lastName;
+    private String firstName, middleName, lastName, number;
 
     PhoneAuthProvider.OnVerificationStateChangedCallbacks phoneAuthCallback = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
         @Override
@@ -66,10 +72,30 @@ public class PhoneAuth extends AppCompatActivity {
         public void onComplete(@NonNull Task<AuthResult> task) {
             dialog.stopDialog();
             if (task.isSuccessful()) {
-                Intent intent = new Intent(context, MainActivity.class);
-                //SEND DETAILS TO SERVER THEN GOTO MAINACTIVITY
-                startActivity(intent);
-                PhoneAuth.this.finish();
+                final Intent intent = new Intent(context, MainActivity.class);
+                final User user = new User();
+                user.setFirstname(firstName);
+                user.setMiddlename(middleName);
+                user.setLastname(lastName);
+                user.setPhone(number);
+                user.setCoins(0);
+                user.setUid(FirebaseAuth.getInstance().getUid());
+                MainActivity.api.userNewUser(user).enqueue(new Callback<UserResponse>() {
+                    @Override
+                    public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                        if (response.body().getCode() == 200) {
+                            startActivity(intent);
+                            PhoneAuth.this.finish();
+                        } else {
+                            Toast.makeText(context, "Something went wrong!", Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserResponse> call, Throwable t) {
+
+                    }
+                });
             } else {
                 Toast.makeText(context, "Something went wrong!", Toast.LENGTH_LONG).show();
             }
@@ -109,8 +135,9 @@ public class PhoneAuth extends AppCompatActivity {
                 if (phone.getText().toString().trim().equals(""))
                     return;
                 dialog.showDialog();
+                number = phone.getText().toString().trim();
                 PhoneAuthOptions options = PhoneAuthOptions.newBuilder()
-                        .setPhoneNumber(phone.getText().toString())
+                        .setPhoneNumber(phone.getText().toString().trim())
                         .setTimeout(60L, TimeUnit.SECONDS)
                         .setActivity(PhoneAuth.this)
                         .setCallbacks(phoneAuthCallback)

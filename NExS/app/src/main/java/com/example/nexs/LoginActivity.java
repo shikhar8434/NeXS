@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.nexs.models.User;
+import com.example.nexs.models.UserResponse;
 import com.example.nexs.utility.LoadingDialog;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -23,6 +25,10 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -89,7 +95,18 @@ public class LoginActivity extends AppCompatActivity {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account.getIdToken());
+                User user = new User();
+                assert account != null;
+                String name = account.getDisplayName();
+                assert name != null;
+                user.setFirstname(name.substring(0, name.indexOf(' ')).trim());
+                if (name.indexOf(' ') != name.lastIndexOf(' ')) {
+                    user.setMiddlename(name.substring(name.indexOf(' ') + 1, name.lastIndexOf(' ') + 1).trim());
+                }
+                user.setLastname(name.substring(name.lastIndexOf(' ') + 1).trim());
+                user.setEmail(account.getEmail());
+                user.setCoins(0);
+                firebaseAuthWithGoogle(account.getIdToken(), user);
             } catch (ApiException e) {
                 dialog.stopDialog();
                 Toast.makeText(context, "Something went Wrong!", Toast.LENGTH_LONG).show();
@@ -97,7 +114,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void firebaseAuthWithGoogle(String idToken) {
+    private void firebaseAuthWithGoogle(String idToken, final User user) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         FirebaseAuth.getInstance().signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -105,10 +122,24 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         dialog.stopDialog();
                         if (task.isSuccessful()) {
-                            Intent intent = new Intent(context, MainActivity.class);
-                            //SEND DETAILS TO SERVER THEN GOTO MAINACTIVITY
-                            startActivity(intent);
-                            LoginActivity.this.finish();
+                            final Intent intent = new Intent(context, MainActivity.class);
+                            user.setUid(FirebaseAuth.getInstance().getUid());
+                            MainActivity.api.userNewUser(user).enqueue(new Callback<UserResponse>() {
+                                @Override
+                                public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                                    if (response.body().getCode() == 200) {
+                                        startActivity(intent);
+                                        LoginActivity.this.finish();
+                                    } else {
+                                        Toast.makeText(context, "Something went wrong!", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<UserResponse> call, Throwable t) {
+
+                                }
+                            });
                         } else {
                             Toast.makeText(context, "Something went Wrong!", Toast.LENGTH_LONG).show();
                         }

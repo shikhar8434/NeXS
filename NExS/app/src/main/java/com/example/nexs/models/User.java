@@ -1,7 +1,9 @@
 
 package com.example.nexs.models;
 
+import java.util.ArrayList;
 import java.util.List;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -27,7 +29,7 @@ public class User {
     private String email;
     @SerializedName("bookmarks")
     @Expose
-    private List<String> bookmarks = null;
+    private List<String> bookmarks = new ArrayList<>();
     @SerializedName("coins")
     @Expose
     private Integer coins;
