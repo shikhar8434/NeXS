@@ -2125,6 +2125,8 @@ id notification_main_column
 id notification_main_column_container
 id off
 id on
+id others_rv
+id others_tv
 id otp
 id outline
 id outward
@@ -2601,6 +2603,7 @@ string search_menu_title
 string sports_news_title
 string status_bar_notification_info_overflow
 string user_name_string
+string view_feed
 string view_your_bookmarked_news
 string welcome
 style AlertDialog_AppCompat
