@@ -20,15 +20,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nexs.adapters.SportsNewsAdapter;
-import com.example.nexs.models.Article;
-import com.example.nexs.models.ArticleResponse;
 import com.example.nexs.models.NewCard;
-import com.example.nexs.services.NexsApi;
+import com.example.nexs.api.NexsApi;
+import com.example.nexs.models.UserResponse;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.gson.Gson;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,7 +42,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
     public static Retrofit retrofit;
     public static NexsApi api;
+    public static String token = "";
     public static final String BASE_URL = "https://nexs-backend.vercel.app";
+//    public static final String BASE_URL = "http://192.168.1.68:8080";
 
     Toolbar mainToolBar;
     DrawerLayout drawerLayout;
@@ -70,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setTokenListener();
         setRetrofit();
 
         tempData = new ArrayList<>();
@@ -139,18 +145,23 @@ public class MainActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         api = retrofit.create(NexsApi.class);
-        Call<ArticleResponse> call = api.articleLikeById("605b439cb7741cd6c229e8e1");
-        call.enqueue(new Callback<ArticleResponse>() {
-            @Override
-            public void onResponse(Call<ArticleResponse> call, Response<ArticleResponse> response) {
-                Toast.makeText(MainActivity.this, response.body().getArticles().size() + "", Toast.LENGTH_LONG).show();
-            }
+    }
 
+    private void setTokenListener() {
+        if (FirebaseAuth.getInstance().getCurrentUser() == null)
+            return;
+        FirebaseAuth.IdTokenListener listener = new FirebaseAuth.IdTokenListener() {
             @Override
-            public void onFailure(Call<ArticleResponse> call, Throwable t) {
-                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+            public void onIdTokenChanged(@NonNull FirebaseAuth firebaseAuth) {
+                Objects.requireNonNull(firebaseAuth.getCurrentUser()).getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<GetTokenResult> task) {
+                        token = Objects.requireNonNull(task.getResult()).getToken();
+                    }
+                });
             }
-        });
+        };
+        FirebaseAuth.getInstance().addIdTokenListener(listener);
     }
 
     @Override

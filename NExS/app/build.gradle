@@ -7,7 +7,7 @@ apply plugin: 'com.google.firebase.crashlytics'
 android {
     signingConfigs {
         debug {
-            storeFile file('/home/hitesh/codes/projects/nexs/android/NExS/nexs_keystore.jks')
+            storeFile file(projectDir.absolutePath + '/nexs_keystore.jks')
             storePassword 'nexsapp123'
             keyPassword 'nexsapp123'
             keyAlias 'key0'
